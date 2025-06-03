@@ -17,7 +17,8 @@ function App() {
     Pi.init({ version: "2.0", sandbox: true }) // ✅ Sửa chỗ này
       .then(() => {
         console.log("✅ Pi.init hoàn tất");
-        return Pi.authenticate(["username"]);
+        return Pi.authenticate(['username']); // đảm bảo đúng chữ 'username'
+
       })
       .then((user: any) => {
         console.log("✅ Đăng nhập thành công:", user);
