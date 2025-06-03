@@ -38,28 +38,35 @@ function App() {
     Pi.createPayment(
       {
         amount: 0.01,
-        memo: "Test Pi payment",
-        metadata: { type: "test" }
+        memo: "Test Payment",
+        metadata: { type: "sandbox-test" }
       },
       {
         onReadyForServerApproval: (paymentId: string) => {
-          console.log("🟡 (sandbox) Không cần approvePayment:", paymentId);
-          // ❌ Không gọi Pi.approvePayment() nếu dùng sandbox!
+          console.log("✅ Ready for approval:", paymentId);
+          try {
+            Pi.approvePayment(paymentId);
+          } catch (e) {
+            console.error("❌ approvePayment error", e);
+          }
         },
         onReadyForServerCompletion: (paymentId: string, txid: string) => {
-          console.log("✅ Giao dịch (sandbox) thành công:", paymentId, txid);
-          // ❌ Không cần gọi completePayment nếu sandbox
+          console.log("✅ Completed:", paymentId, txid);
+          try {
+            Pi.completePayment(paymentId);
+          } catch (e) {
+            console.error("❌ completePayment error", e);
+          }
         },
         onCancel: (paymentId: string) => {
-          console.warn("❌ Giao dịch bị huỷ:", paymentId);
+          console.warn("❌ Cancelled:", paymentId);
         },
-        onError: (error: any) => {
-          console.error("❌ Lỗi thanh toán:", error);
+        onError: (err: any) => {
+          console.error("❌ Payment error:", err);
         }
       }
     );
-  };
-  
+  }
 
   return (
     <>
