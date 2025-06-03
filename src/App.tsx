@@ -34,31 +34,32 @@ function App() {
       alert("❌ Pi SDK chưa sẵn sàng!");
       return;
     }
-
+  
     Pi.createPayment(
       {
         amount: 0.01,
         memo: "Test Pi payment",
-        metadata: { type: "test" },
+        metadata: { type: "test" }
       },
       {
         onReadyForServerApproval: (paymentId: string) => {
-          console.log("✅ Đã gửi yêu cầu thanh toán:", paymentId);
-          // ❌ KHÔNG cần approvePayment() trong sandbox
+          console.log("🟡 (sandbox) Không cần approvePayment:", paymentId);
+          // ❌ Không gọi Pi.approvePayment() nếu dùng sandbox!
         },
         onReadyForServerCompletion: (paymentId: string, txid: string) => {
-          console.log("✅ Thanh toán hoàn tất:", paymentId, txid);
-          // ❌ KHÔNG cần completePayment() trong sandbox
+          console.log("✅ Giao dịch (sandbox) thành công:", paymentId, txid);
+          // ❌ Không cần gọi completePayment nếu sandbox
         },
         onCancel: (paymentId: string) => {
-          console.warn("❌ Giao dịch bị hủy:", paymentId);
+          console.warn("❌ Giao dịch bị huỷ:", paymentId);
         },
         onError: (error: any) => {
           console.error("❌ Lỗi thanh toán:", error);
-        },
+        }
       }
     );
   };
+  
 
   return (
     <>
