@@ -14,7 +14,7 @@ function App() {
       return;
     }
 
-    Pi.init({ version: "2.0", sandbox: false })
+    Pi.init({ version: "2.0", sandbox: true }) // ✅ Sửa chỗ này
       .then(() => {
         console.log("✅ Pi.init hoàn tất");
         return Pi.authenticate(["username"]);
@@ -102,3 +102,4 @@ function App() {
 }
 
 export default App;
+
