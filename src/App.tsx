@@ -14,12 +14,10 @@ function App() {
       return;
     }
 
-    Pi.init({ version: "2.0", sandbox: true }) // ✅ Sửa chỗ này
+    Pi.init({ version: "2.0", sandbox: true })
       .then(() => {
         console.log("✅ Pi.init hoàn tất");
         return Pi.authenticate(["username", "payments"]);
-
-
       })
       .then((user: any) => {
         console.log("✅ Đăng nhập thành công:", user);
@@ -41,23 +39,23 @@ function App() {
       {
         amount: 0.01,
         memo: "Test Pi payment",
-        metadata: { type: "test" }
+        metadata: { type: "test" },
       },
       {
         onReadyForServerApproval: (paymentId: string) => {
-          console.log("🟡 Chờ duyệt từ server:", paymentId);
-          Pi.approvePayment(paymentId); // ✅ Test client-only
+          console.log("✅ Đã gửi yêu cầu thanh toán:", paymentId);
+          // ❌ KHÔNG cần approvePayment() trong sandbox
         },
         onReadyForServerCompletion: (paymentId: string, txid: string) => {
-          console.log("✅ Giao dịch thành công:", paymentId, txid);
-          Pi.completePayment(paymentId);
+          console.log("✅ Thanh toán hoàn tất:", paymentId, txid);
+          // ❌ KHÔNG cần completePayment() trong sandbox
         },
         onCancel: (paymentId: string) => {
-          console.warn("❌ Giao dịch bị huỷ:", paymentId);
+          console.warn("❌ Giao dịch bị hủy:", paymentId);
         },
         onError: (error: any) => {
           console.error("❌ Lỗi thanh toán:", error);
-        }
+        },
       }
     );
   };
@@ -77,9 +75,7 @@ function App() {
       <p>👤 Người dùng: {username}</p>
 
       <div className="card">
-        <button onClick={() => setCount((c) => c + 1)}>
-          count is {count}
-        </button>
+        <button onClick={() => setCount((c) => c + 1)}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -94,7 +90,7 @@ function App() {
           border: "none",
           borderRadius: "6px",
           fontWeight: "bold",
-          cursor: "pointer"
+          cursor: "pointer",
         }}
       >
         🚀 Test Thanh Toán Pi
@@ -104,4 +100,3 @@ function App() {
 }
 
 export default App;
-
